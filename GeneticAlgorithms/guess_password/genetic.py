@@ -19,8 +19,8 @@ def _generate_parent(length, geneSet, get_fitness):
 
 
 def _mutate(parent, geneSet, get_fitness):
-    index = random.randrange(0, len(parent))
-    childGenes = list(parent)
+    index = random.randrange(0, len(parent.Genes))
+    childGenes = list(parent.Genes)
     newGene, alternative = random.sample(geneSet, 2)
     childGenes[index] = newGene \
         if newGene != childGenes[index] \
@@ -34,7 +34,7 @@ def get_best(get_fitness, targetLen, optimalFitness, geneSet, display):
     random.seed()
     bestParent = _generate_parent(targetLen, geneSet, get_fitness)
     display(bestParent)
-    if bestParent.Fitness > optimalFitness:
+    if bestParent.Fitness >= optimalFitness:
         return bestParent
 
     while True:
@@ -52,3 +52,28 @@ class Chromosome:
     def __init__(self, genes, fitness):
         self.Genes = genes
         self.Fitness = fitness
+
+
+class Benchmark:
+    @staticmethod
+    def run(function):
+        timings = []
+        stdout = sys.stdout
+        for i in range(100):
+            startTime = time.time()
+
+            sys.stdout = None  # avoid the output to be chatty
+            function()
+            seconds = time.time() - startTime
+            sys.stdout = stdout
+
+            timings.append(seconds)
+            mean = statistics.mean(timings)
+
+            # only display statistics for the first ten runs and then every 10th run after that.
+            if i < 10 or i % 10 == 9:
+                print("{} {:3.2f} {:3.2f}".format(
+                    1 + i, mean,
+                    statistics.stdev(timings, mean)
+                    if i > 1 else 0))
+
