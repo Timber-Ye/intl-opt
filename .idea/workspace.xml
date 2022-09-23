@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8bece0c-c0e8-4a52-8f3b-fcdc9ff32ad9" name="Changes" comment="inital commit" />
+    <list default="true" id="b8bece0c-c0e8-4a52-8f3b-fcdc9ff32ad9" name="Changes" comment="inital commit">
+      <change afterPath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/genetic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,16 +34,25 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/hanchiao/Projects/Pycharm/intl-opt&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/GeneticAlgorithms/guess_password" />
+      <recent name="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="lcg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="intl-opt" />
@@ -82,7 +94,14 @@
       <workItem from="1662593738847" duration="773000" />
       <workItem from="1662685453153" duration="638000" />
       <workItem from="1663286037235" duration="268000" />
-      <workItem from="1663286544997" duration="341000" />
+      <workItem from="1663286544997" duration="433000" />
+      <workItem from="1663311082420" duration="8000" />
+      <workItem from="1663690316634" duration="669000" />
+      <workItem from="1663742401509" duration="39000" />
+      <workItem from="1663770476696" duration="773000" />
+      <workItem from="1663864734448" duration="412000" />
+      <workItem from="1663891945984" duration="12062000" />
+      <workItem from="1663924658817" duration="658000" />
     </task>
     <task id="LOCAL-00001" summary="inital commit">
       <created>1663286795656</created>
@@ -91,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663286795656</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="inital commit">
+      <created>1663286969336</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1663286969336</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
