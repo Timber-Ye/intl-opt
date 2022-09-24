@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8bece0c-c0e8-4a52-8f3b-fcdc9ff32ad9" name="Changes" comment="add guessPassword and One-Max Problem projects">
-      <change afterPath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/oneMaxTests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeneticAlgorithms/guess_password/genetic.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithms/guess_password/genetic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeneticAlgorithms/guess_password/guessPasswordTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithms/guess_password/guessPasswordTests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/genetic.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/genetic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/oneMaxTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/oneMaxTests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +103,8 @@
       <workItem from="1663864734448" duration="412000" />
       <workItem from="1663891945984" duration="12062000" />
       <workItem from="1663924658817" duration="658000" />
-      <workItem from="1663933138344" duration="9125000" />
+      <workItem from="1663933138344" duration="9372000" />
+      <workItem from="1663984057136" duration="32469000" />
     </task>
     <task id="LOCAL-00001" summary="inital commit">
       <created>1663286795656</created>
@@ -128,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663933336424</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add guessPassword and One-Max Problem projects">
+      <created>1663953369513</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1663953369513</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
