@@ -87,7 +87,7 @@ class OneMaxTests(unittest.TestCase):
 
     def test_benchmark(self):
         genetic.Benchmark.run(lambda: self.solve(length=30, mutate_rate=0.01,
-                                                 crossover_rate=0.9, generation=100,
+                                                 crossover_rate=0.9, generation=None,
                                                  poolSize=20))
 
 

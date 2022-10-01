@@ -151,7 +151,8 @@ class Benchmark:
     def run(function):
         timings = []
         stdout = sys.stdout
-        for i in range(50):
+        print("\t{:3}\t{}\t{}".format("No.", "Mean", "Stdev"))
+        for i in range(1):
             startTime = time.time()
 
             sys.stdout = None  # avoid the output to be chatty
@@ -164,7 +165,7 @@ class Benchmark:
 
             # only display statistics for the first ten runs and then every 10th run after that.
             if i < 10 or i % 10 == 9:
-                print("{} {:3.2f} {:3.2f}".format(
+                print("\t{:3}\t{:<3.2f}\t{:<3.2f}".format(
                     1 + i, mean,
                     statistics.stdev(timings, mean)
                     if i > 1 else 0))

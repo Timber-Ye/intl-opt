@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8bece0c-c0e8-4a52-8f3b-fcdc9ff32ad9" name="Changes" comment="add guessPassword and One-Max Problem projects">
+    <list default="true" id="b8bece0c-c0e8-4a52-8f3b-fcdc9ff32ad9" name="Changes" comment="Hw3: One-Max Project Final version by Sep.25">
+      <change afterPath="$PROJECT_DIR$/GeneticAlgorithms/minimum_spanning_tree/MSTTests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GeneticAlgorithms/minimum_spanning_tree/genetic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/genetic.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/genetic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/oneMaxTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem/oneMaxTests.py" afterDir="false" />
@@ -45,16 +47,47 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;pyconsole&quot;
   }
 }</component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;import numpy as np" module-name="intl-opt" is-module-sdk="true">
+        <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;import numpy as np" />
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="intl-opt" />
+      </console-settings>
+    </option>
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/GeneticAlgorithms/guess_password" />
       <recent name="$PROJECT_DIR$/GeneticAlgorithms/one_max_problem" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.MSTTest">
+    <configuration name="MSTTest" type="PythonConfigurationType" factoryName="Python">
+      <module name="intl-opt" />
+      <option name="INTERPRETER_OPTIONS" value="-m unittest" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/opt/miniconda3/envs/intl-opt/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GeneticAlgorithms/minimum_spanning_tree" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GeneticAlgorithms/minimum_spanning_tree/MSTTests.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="lcg" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="intl-opt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -77,6 +110,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.MSTTest" />
+      <item itemvalue="Python.lcg" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.lcg" />
@@ -104,7 +141,11 @@
       <workItem from="1663891945984" duration="12062000" />
       <workItem from="1663924658817" duration="658000" />
       <workItem from="1663933138344" duration="9372000" />
-      <workItem from="1663984057136" duration="32469000" />
+      <workItem from="1663984057136" duration="32878000" />
+      <workItem from="1664065235528" duration="793000" />
+      <workItem from="1664439286087" duration="10859000" />
+      <workItem from="1664587828747" duration="18801000" />
+      <workItem from="1664629608042" duration="772000" />
     </task>
     <task id="LOCAL-00001" summary="inital commit">
       <created>1663286795656</created>
@@ -134,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663953369513</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Hw3: One-Max Project Final version by Sep.25">
+      <created>1664036010664</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664036010664</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,9 +202,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="inital commit" />
     <MESSAGE value="add guessPassword and One-Max Problem projects" />
-    <option name="LAST_COMMIT_MESSAGE" value="add guessPassword and One-Max Problem projects" />
+    <MESSAGE value="Hw3: One-Max Project Final version by Sep.25" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hw3: One-Max Project Final version by Sep.25" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/intl_opt$lcg.coverage" NAME="lcg Coverage Results" MODIFIED="1662593904297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PRNG" />
+    <SUITE FILE_PATH="coverage/intl_opt$MSTTest.coverage" NAME="MSTTest Coverage Results" MODIFIED="1664611808770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GeneticAlgorithms/minimum_spanning_tree" />
   </component>
 </project>
