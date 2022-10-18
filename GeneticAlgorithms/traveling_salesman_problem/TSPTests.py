@@ -136,7 +136,7 @@ def mutate(genes, mutate_rate):
     # return childGenes
 
 
-class MSTTests(unittest.TestCase):
+class TSPTests(unittest.TestCase):
 
     def solve(self, idToLocationLookup, optimalWeights=None,
               mutate_rate=0.01, crossover_rate=0.9,
