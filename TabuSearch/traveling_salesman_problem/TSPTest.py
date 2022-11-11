@@ -80,55 +80,33 @@ def create(city_num):
     return _route
 
 
-def get_distance(location_a, location_b):
-    """
-    计算两个城市之间的距离
-    :param location_a:
-    :param location_b:
-    :return:
-    """
-    side1 = location_a[0] - location_b[0]
-    side2 = location_a[1] - location_b[1]
-    side3 = math.sqrt(side1**2+side2**2)
-    return side3
+def get_distance(idToLocationLookup):
+    _n= idToLocationLookup.shape[0]
+    adj_mat = np.zeros([_n, _n])
+    for i in range(_n):
+        for j in range(i, _n):
+            adj_mat[i][j] = np.linalg.norm(np.subtract(idToLocationLookup[i],
+                                                       idToLocationLookup[j]))
+            adj_mat[j][i] = adj_mat[i][j]
+    return adj_mat
 
 
-def get_fitness(route, idToLocationLookup):
-    """
-    计算周游总路程
-    :param route: 周游序列编码
-    :param idToLocationLookup: 城市坐标查询表
-    :return: 总路程
-    """
-    fitness = get_distance(idToLocationLookup[route[-1]],
-                           idToLocationLookup[route[0]])
+def get_fitness(route, _adj_mat):
+    fitness = _adj_mat[route[-1], route[0]]
     for i in range(len(route)-1):
-        fitness += get_distance(idToLocationLookup[route[i]],
-                                idToLocationLookup[route[i+1]])
+        fitness += _adj_mat[route[i], route[i+1]]
     return Fitness(round(fitness, 3))
 
 
-def get_improve(l, r, route, idToLocationLookup):
-    # bef: [..., i-1, l, i+1, ..., j-1, r, j+1]
-    # aft: [..., i-1, r, i+1, ..., j-1, l, j+1]
+def get_improve(l, r, route, adj_mat):
+    # bef: [..., l-1, l, l+1, ..., r-1, r, r+1]
+    # aft: [..., l-1, r, r-1, ..., l+1, l, r+1]
     city_num = len(route)
-    if r - l == 1:
-        _d = get_distance(idToLocationLookup[route[l-1]], idToLocationLookup[route[l]])\
-              + get_distance(idToLocationLookup[route[r]], idToLocationLookup[route[(r+1) % city_num]])
-        d = get_distance(idToLocationLookup[route[l-1]], idToLocationLookup[route[r]])\
-              + get_distance(idToLocationLookup[route[l]], idToLocationLookup[route[(r+1) % city_num]])
-        return d-_d
-    else:
-        _dl = get_distance(idToLocationLookup[route[l-1]],idToLocationLookup[route[l]])\
-              + get_distance(idToLocationLookup[route[l]],idToLocationLookup[route[l+1]])
-        _dr = get_distance(idToLocationLookup[route[r-1]],idToLocationLookup[route[r]])\
-              + get_distance(idToLocationLookup[route[r]],idToLocationLookup[route[(r+1) % city_num]])
-        dl = get_distance(idToLocationLookup[route[l-1]],idToLocationLookup[route[r]])\
-              + get_distance(idToLocationLookup[route[r]],idToLocationLookup[route[l+1]])
-        dr = get_distance(idToLocationLookup[route[r-1]],idToLocationLookup[route[l]])\
-              + get_distance(idToLocationLookup[route[l]],idToLocationLookup[route[(r+1) % city_num]])
 
-        return dl + dr - _dl - _dr
+    delta = adj_mat[route[l - 1]][route[r]] + adj_mat[route[l]][route[(r + 1) % city_num]] - \
+            adj_mat[route[l - 1]][route[l]] - adj_mat[route[r]][route[(r + 1) % city_num]]
+
+    return delta
 
 
 def get_neighbor(route):
@@ -138,7 +116,6 @@ def get_neighbor(route):
     :return:
     """
     [l, r, *_] = np.random.choice(range(1, len(route)), size=2, replace=False)
-    np.random.sample()
     if r < l:
         l, r = r, l
     return l, r
@@ -147,7 +124,8 @@ def get_neighbor(route):
 def move2neighbor(_route, _fitness, neighbor):
     route = _route[:]
     pos_1, pos_2 = neighbor.Pos_1, neighbor.Pos_2
-    route[pos_1], route[pos_2] = route[pos_2], route[pos_1]
+    route[pos_1:pos_2+1] = route[pos_1:pos_2+1][::-1]
+    # route[pos_1], route[pos_2] = route[pos_2], route[pos_1]
     return route, _fitness.get_improv(neighbor.Eval)
 
 
@@ -159,6 +137,7 @@ class TSPTests(unittest.TestCase):
             neighbor_range = [100, 200]
         startTime = datetime.datetime.now()
         cities_num = idToLocationLookup.shape[0]
+        adj_mat = get_distance(idToLocationLookup)
 
         def fnDisplay(candidate):
             display(candidate, startTime)
@@ -167,11 +146,11 @@ class TSPTests(unittest.TestCase):
             return create(cities_num)
 
         def fnGetFitness(route):
-            return get_fitness(route, idToLocationLookup)
+            return get_fitness(route, adj_mat)
 
         def fnGetNeighbor(route):
             l, r = get_neighbor(route)
-            _improv = get_improve(l, r, route, idToLocationLookup)
+            _improv = get_improve(l, r, route, adj_mat)
             return Neighbor(l, r, _improv)
 
         def fnMove(route, fitness, neighbor):
@@ -236,16 +215,16 @@ class TSPTests(unittest.TestCase):
     def test_38_cities(self):
         idToLocationLookup = np.loadtxt(BASE_DIR + '/test_38_cities.txt', delimiter=' ', usecols=[1, 2])
         idToLocationLookup = idToLocationLookup - np.amin(idToLocationLookup, axis=0)
-        taboo.Benchmark.run(lambda tabu_length=80, neighbor_range=[100, 250],
-                                   pool_size=10, freq_punish=1e-1:
+
+        taboo.Benchmark.run(lambda tabu_length=20, neighbor_range=[100, 100],
+                                   pool_size=3, freq_punish=5e-1:
                             self.solve(idToLocationLookup, 6657,
                                        tabu_period=tabu_length,
                                        neighbor_range=neighbor_range,
                                        poolSize=pool_size,
-                                       generation=3500,
+                                       generation=500,
                                        freq_punish=freq_punish),
                             visualization=True)
-# 0-1-3-2-4-6-5-7-8-11-10-15-16-18-17-12-14-19-22-24-25-21-23-27-26-30-35-33-32-37-36-34-31-29-28-20-13-9
 
 
 if __name__ == '__main__':

@@ -180,10 +180,10 @@ class Benchmark:
             fig.suptitle('Simulated Annealing - Traveling Salesman Problem', fontweight="bold")
 
         # for i, value in enumerate(neighbor_range):
-        for i in range(1):
+        for i in range(20):
             startTime = time.time()
 
-            # sys.stdout = None  # avoid the output to be chatty
+            sys.stdout = None  # avoid the output to be chatty
             best, historical_current, historical_best_fitness = function()
             seconds = time.time() - startTime
             optimal_cost.append(best.Fitness.get_total_distance())

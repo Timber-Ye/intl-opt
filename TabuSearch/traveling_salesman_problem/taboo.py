@@ -197,18 +197,18 @@ class Benchmark:
             # fig.suptitle('Tuning Neighbor_range', fontweight="bold")
 
         # for i, value in enumerate(neighbor_range):
-        for i in range(1):
+        for i in range(20):
             startTime = time.time()
 
-            # sys.stdout = None  # avoid the output to be chatty
+            sys.stdout = None  # avoid the output to be chatty
             best, generation_mean_fitness, historical_best_fitness = function()
             seconds = time.time() - startTime
             optimal_cost.append(best.Fitness.get_total_distance())
             sys.stdout = stdout
 
             if visualization:
-                np.save("tuning_neighbor_range/mean_fitness_{}.npy".format(i), np.array(generation_mean_fitness))
-                np.save("tuning_neighbor_range/best_fitness_{}.npy".format(i), np.array(historical_best_fitness))
+                # np.save("tuning_neighbor_range/mean_fitness_{}.npy".format(i), np.array(generation_mean_fitness))
+                # np.save("tuning_neighbor_range/best_fitness_{}.npy".format(i), np.array(historical_best_fitness))
                 x_axis = len(generation_mean_fitness)
                 x_axis = list(range(x_axis))
 
@@ -237,3 +237,5 @@ class Benchmark:
             ax_1.legend(loc='upper right')
             # ax_2.legend(loc='upper right')
             fig.savefig('../../fig//[tmp]【TS】Traveling salesman problem - 38 cities.pdf')
+
+        return best
