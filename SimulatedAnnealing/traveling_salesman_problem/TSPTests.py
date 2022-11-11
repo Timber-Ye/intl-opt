@@ -1,8 +1,8 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2022/10/11 00:38
+# @Time    : 2022/10/20 14:45
 # @Author  : 
-# @File    : TSPTest.py.py
+# @File    : TSPTests.py
 
 import datetime
 import random
@@ -11,7 +11,7 @@ import math
 import numpy as np
 import os
 
-import taboo
+import SA
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -37,33 +37,30 @@ class Fitness:
 
 
 class Neighbor:
-    def __init__(self, pos_1, pos_2, eval):
+    def __init__(self, pos_1, pos_2, _eval):
         self.Pos_1 = pos_1
         self.Pos_2 = pos_2
-        self.Eval = eval
+        self.Eval = _eval
 
     def __gt__(self, other):
-        return self.Eval + self.Punish < other.Eval + other.Punish
+        return self.Eval < other.Eval
 
     def __str__(self):
         return "{}-{} eval: {:0.2f}".format(self.Pos_1, self.Pos_2, self.Eval)
-
-    def punish(self, punish):
-        self.Punish = punish
 
 
 def display(candidate, startTime):
     timeDiff = datetime.datetime.now() - startTime
     length = len(candidate.Route)
     if length < 10:
-        print("{:<15}\t{}\t{}\t{}\n".format(
-            '-'.join(map(str, candidate.Route)),
+        print("{:<15}\t{:<8.2f}\t{}\t{:^10}\t{}\n".format(
+            '-'.join(map(str, candidate.Route)), candidate.Temperature,
             candidate.Fitness, candidate.Strategy.name,
             timeDiff))
     else:
-        print("{:<15}...{:<15}\t{}\t{}\t{}\n".format(
+        print("{:<15}...{:<15}\t{:<8.2f}\t{}\t{:^10}\t{}\n".format(
             '-'.join(map(str, candidate.Route[:5])),
-            '-'.join(map(str, candidate.Route[-5:])),
+            '-'.join(map(str, candidate.Route[-5:])), candidate.Temperature,
             candidate.Fitness, candidate.Strategy.name,
             timeDiff))
 
@@ -74,9 +71,8 @@ def create(city_num):
     :param city_num: 城市个数
     :return:
     """
-    _route = list(range(1, city_num))
-    random.shuffle(_route)
-    _route = [0] + _route
+    _route = list(range(city_num))
+    random.shuffle(_route)  # 随机排列
     return _route
 
 
@@ -89,7 +85,7 @@ def get_distance(location_a, location_b):
     """
     side1 = location_a[0] - location_b[0]
     side2 = location_a[1] - location_b[1]
-    side3 = math.sqrt(side1**2+side2**2)
+    side3 = math.sqrt(side1 ** 2 + side2 ** 2)
     return side3
 
 
@@ -102,9 +98,9 @@ def get_fitness(route, idToLocationLookup):
     """
     fitness = get_distance(idToLocationLookup[route[-1]],
                            idToLocationLookup[route[0]])
-    for i in range(len(route)-1):
+    for i in range(len(route) - 1):
         fitness += get_distance(idToLocationLookup[route[i]],
-                                idToLocationLookup[route[i+1]])
+                                idToLocationLookup[route[i + 1]])
     return Fitness(round(fitness, 3))
 
 
@@ -113,20 +109,20 @@ def get_improve(l, r, route, idToLocationLookup):
     # aft: [..., i-1, r, i+1, ..., j-1, l, j+1]
     city_num = len(route)
     if r - l == 1:
-        _d = get_distance(idToLocationLookup[route[l-1]], idToLocationLookup[route[l]])\
-              + get_distance(idToLocationLookup[route[r]], idToLocationLookup[route[(r+1) % city_num]])
-        d = get_distance(idToLocationLookup[route[l-1]], idToLocationLookup[route[r]])\
-              + get_distance(idToLocationLookup[route[l]], idToLocationLookup[route[(r+1) % city_num]])
-        return d-_d
+        _d = get_distance(idToLocationLookup[route[l - 1]], idToLocationLookup[route[l]]) \
+             + get_distance(idToLocationLookup[route[r]], idToLocationLookup[route[(r + 1) % city_num]])
+        d = get_distance(idToLocationLookup[route[l - 1]], idToLocationLookup[route[r]]) \
+            + get_distance(idToLocationLookup[route[l]], idToLocationLookup[route[(r + 1) % city_num]])
+        return d - _d
     else:
-        _dl = get_distance(idToLocationLookup[route[l-1]],idToLocationLookup[route[l]])\
-              + get_distance(idToLocationLookup[route[l]],idToLocationLookup[route[l+1]])
-        _dr = get_distance(idToLocationLookup[route[r-1]],idToLocationLookup[route[r]])\
-              + get_distance(idToLocationLookup[route[r]],idToLocationLookup[route[(r+1) % city_num]])
-        dl = get_distance(idToLocationLookup[route[l-1]],idToLocationLookup[route[r]])\
-              + get_distance(idToLocationLookup[route[r]],idToLocationLookup[route[l+1]])
-        dr = get_distance(idToLocationLookup[route[r-1]],idToLocationLookup[route[l]])\
-              + get_distance(idToLocationLookup[route[l]],idToLocationLookup[route[(r+1) % city_num]])
+        _dl = get_distance(idToLocationLookup[route[l - 1]], idToLocationLookup[route[l]]) \
+              + get_distance(idToLocationLookup[route[l]], idToLocationLookup[route[l + 1]])
+        _dr = get_distance(idToLocationLookup[route[r - 1]], idToLocationLookup[route[r]]) \
+              + get_distance(idToLocationLookup[route[r]], idToLocationLookup[route[(r + 1) % city_num]])
+        dl = get_distance(idToLocationLookup[route[l - 1]], idToLocationLookup[route[r]]) \
+             + get_distance(idToLocationLookup[route[r]], idToLocationLookup[route[l + 1]])
+        dr = get_distance(idToLocationLookup[route[r - 1]], idToLocationLookup[route[l]]) \
+             + get_distance(idToLocationLookup[route[l]], idToLocationLookup[route[(r + 1) % city_num]])
 
         return dl + dr - _dl - _dr
 
@@ -153,10 +149,9 @@ def move2neighbor(_route, _fitness, neighbor):
 
 class TSPTests(unittest.TestCase):
     def solve(self, idToLocationLookup, optimalWeights=None,
-              tabu_period=7, neighbor_range=None, poolSize=1, freq_punish=1e-3,
-              generation=None):
-        if neighbor_range is None:
-            neighbor_range = [100, 200]
+              inital_temperature=100, inner_loop=200,
+              cooling_rate=0.9, halt_temp=0.1,
+              pool_size=200):
         startTime = datetime.datetime.now()
         cities_num = idToLocationLookup.shape[0]
 
@@ -178,16 +173,19 @@ class TSPTests(unittest.TestCase):
             return move2neighbor(route, fitness, neighbor)
 
         optimalFitness = Fitness(optimalWeights)
-        best, generation_mean_fitness, historical_best_fitness = taboo.get_best(cities_num, optimalFitness,
-                                                get_fitness=fnGetFitness, display=fnDisplay,
-                                                custom_generate=fnCreate, custom_get_neighbor=fnGetNeighbor,
-                                                custom_move=fnMove,
-                                                tabu_period=tabu_period, neighbor_range=neighbor_range,
-                                                poolSize=poolSize, freq_punish=freq_punish,
-                                                generation=generation)
+        best, generation_mean_fitness, historical_best_fitness = SA.get_best(cities_num, optimalFitness,
+                                                                             get_fitness=fnGetFitness,
+                                                                             display=fnDisplay,
+                                                                             custom_generate=fnCreate,
+                                                                             custom_get_neighbor=fnGetNeighbor,
+                                                                             custom_move=fnMove,
+                                                                             inital_temp=inital_temperature,
+                                                                             inner_loop=inner_loop*cities_num,
+                                                                             cooling_rate=cooling_rate,
+                                                                             halt_temp=halt_temp,
+                                                                             pool_size=pool_size)
         print("Optimal Solution: {}".format('-'.join(map(str, best.Route))))
         return best, generation_mean_fitness, historical_best_fitness
-
 
     def test_30_cities(self):
         idToLocationLookup = np.array([
@@ -223,33 +221,30 @@ class TSPTests(unittest.TestCase):
             [4, 50]
         ])
         opt_weights = 423.741
-        taboo.Benchmark.run(lambda tabu_length=15, neighbor_range=[100, 100],
-                                   pool_size=5, freq_punish=4e-1:
-                            self.solve(idToLocationLookup, opt_weights,
-                                       tabu_period=tabu_length,
-                                       neighbor_range=neighbor_range,
-                                       poolSize=pool_size,
-                                       generation=3000,
-                                       freq_punish=freq_punish),
-                            visualization=False)
+        SA.Benchmark.run(lambda init_t=1000, inner_loop=80,
+                                cooling_rate=0.97, halt_t=1e-2, pool_size=100:
+                         self.solve(idToLocationLookup, opt_weights,
+                                    inital_temperature=init_t,
+                                    inner_loop=inner_loop,
+                                    cooling_rate=cooling_rate,
+                                    halt_temp=halt_t,
+                                    pool_size=pool_size),
+                                    visualization=False)
 
     def test_38_cities(self):
         idToLocationLookup = np.loadtxt(BASE_DIR + '/test_38_cities.txt', delimiter=' ', usecols=[1, 2])
-        idToLocationLookup = idToLocationLookup - np.amin(idToLocationLookup, axis=0)
-        taboo.Benchmark.run(lambda tabu_length=80, neighbor_range=[100, 250],
-                                   pool_size=10, freq_punish=1e-1:
-                            self.solve(idToLocationLookup, 6657,
-                                       tabu_period=tabu_length,
-                                       neighbor_range=neighbor_range,
-                                       poolSize=pool_size,
-                                       generation=3500,
-                                       freq_punish=freq_punish),
-                            visualization=True)
-# 0-1-3-2-4-6-5-7-8-11-10-15-16-18-17-12-14-19-22-24-25-21-23-27-26-30-35-33-32-37-36-34-31-29-28-20-13-9
+        idToLocationLookup = idToLocationLookup-np.amin(idToLocationLookup, axis=0)
+        SA.Benchmark.run(lambda init_t=3000, inner_loop=1000,
+                                cooling_rate=0.97, halt_t=1e-2, pool_size=100:
+                         self.solve(idToLocationLookup, optimalWeights=6657,
+                                    inital_temperature=init_t,
+                                    inner_loop=inner_loop,
+                                    cooling_rate=cooling_rate,
+                                    halt_temp=halt_t,
+                                    pool_size=pool_size),
+                         visualization=True)
 
 
 if __name__ == '__main__':
     random.seed(datetime.datetime.now())
     unittest.main()
-
-

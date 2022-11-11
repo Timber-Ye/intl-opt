@@ -9,7 +9,6 @@ import random
 import statistics
 from itertools import count
 from enum import Enum
-from collections import deque
 import sys
 import time
 
@@ -75,7 +74,7 @@ def get_best(cities_num, opt_fitness,
     def _get_improvement(strategyLookup, tabu_list, poolSize, neighbor_range, iteration=None):
         candidate_num = neighbor_range[0]
         neighbor_num = neighbor_range[1]
-        local_bests = [strategyLookup[Strategies.Create]() for i in range(poolSize)]
+        local_bests = [strategyLookup[Strategies.Create](i) for i in range(poolSize)]
         pool = local_bests[:]
         global_best = local_bests[0]
         for _lb in local_bests:
@@ -184,24 +183,24 @@ class Benchmark:
 
         if visualization:
             fig = plt.figure()
-            ax_1 = fig.add_subplot(211)
+            ax_1 = fig.add_subplot(111)
             # ax_1.set_aspect(1)
-            ax_1.set(ylabel='Average traveling costs', xlim=[0, 3000], ylim=[420, 450])
+            ax_1.set(ylabel='Average traveling costs', xlim=[0, 3500], ylim=[6200, 12500])
             plt.grid(linestyle='--', linewidth=1, alpha=0.3)
 
-            ax_2 = fig.add_subplot(212)
-            # ax_2.set_aspect(1.2)
-            ax_2.set(xlabel='No. of generation', ylabel='Best so far',
-                     xlim=[0, 3000], ylim=[420, 450])
-            plt.grid(linestyle='--', linewidth=1, alpha=0.3)
-            # fig.tight_layout()
-            fig.suptitle('Tuning Neighbor_range', fontweight="bold")
+            # ax_2 = fig.add_subplot(212)
+            # # ax_2.set_aspect(1.2)
+            # ax_2.set(xlabel='No. of generation', ylabel='Best so far',
+            #          xlim=[0, 3000], ylim=[420, 450])
+            # plt.grid(linestyle='--', linewidth=1, alpha=0.3)
+            # # fig.tight_layout()
+            # fig.suptitle('Tuning Neighbor_range', fontweight="bold")
 
         # for i, value in enumerate(neighbor_range):
-        for i in range(20):
+        for i in range(1):
             startTime = time.time()
 
-            sys.stdout = None  # avoid the output to be chatty
+            # sys.stdout = None  # avoid the output to be chatty
             best, generation_mean_fitness, historical_best_fitness = function()
             seconds = time.time() - startTime
             optimal_cost.append(best.Fitness.get_total_distance())
@@ -213,8 +212,8 @@ class Benchmark:
                 x_axis = len(generation_mean_fitness)
                 x_axis = list(range(x_axis))
 
-                # ax_1.plot(x_axis, generation_mean_fitness, color='b', label="mean costs", ls='-')
-                # ax_1.plot(x_axis, historical_best_fitness, color='g', label="best so far", ls='-')
+                ax_1.plot(x_axis, generation_mean_fitness, color='b', label="mean costs", ls='-')
+                ax_1.plot(x_axis, historical_best_fitness, color='g', label="best so far", ls='-')
                 # ax_1.plot(x_axis, generation_mean_fitness, color=color[i], label='[{}, {}]'.format(value[0], value[1]), ls='-')
                 # ax_2.plot(x_axis, historical_best_fitness, color=color[i], label='[{}, {}]'.format(value[0], value[1]), ls='-')
 
@@ -236,5 +235,5 @@ class Benchmark:
 
         if visualization:
             ax_1.legend(loc='upper right')
-            ax_2.legend(loc='upper right')
-            fig.savefig('../../fig/[tmp]Tuning TABU_LENGTH.pdf')
+            # ax_2.legend(loc='upper right')
+            fig.savefig('../../fig//[tmp]【TS】Traveling salesman problem - 38 cities.pdf')
