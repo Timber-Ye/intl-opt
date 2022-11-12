@@ -122,7 +122,7 @@ def move2neighbor(_sol, _fitness, neighbor):
     return sol_, _fitness.get_improv(neighbor.Eval)
 
 
-class TSPTests(unittest.TestCase):
+class UBQPTests(unittest.TestCase):
     def solve(self, _size, _lookup, optimalWeights=None,
               tabu_period=7, neighbor_range=None, poolSize=1, freq_punish=1e-3,
               generation=None):
