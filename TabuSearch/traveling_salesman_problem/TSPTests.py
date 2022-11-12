@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2022/10/11 00:38
 # @Author  : 
-# @File    : TSPTest.py.py
+# @File    : TSPTests.py.py
 
 import datetime
 import random
 import unittest
-import math
 import numpy as np
 import os
 
@@ -15,7 +14,11 @@ import taboo
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 class Fitness:
+    """
+    fitness value related operations
+    """
     def __init__(self, totalDistance):
         self.TotalDistance = totalDistance  # Objective function value
         self.fitness = 1000 / self.TotalDistance  # Fitness value
@@ -37,6 +40,9 @@ class Fitness:
 
 
 class Neighbor:
+    """
+    Neighbor related operations
+    """
     def __init__(self, pos_1, pos_2, eval):
         self.Pos_1 = pos_1
         self.Pos_2 = pos_2
@@ -49,6 +55,10 @@ class Neighbor:
         return "{}-{} eval: {:0.2f}".format(self.Pos_1, self.Pos_2, self.Eval)
 
     def punish(self, punish):
+        """
+        give some punishment based on previous frequency
+        :param punish: punish_value = freq_in_middle_period_list * ratio
+        """
         self.Punish = punish
 
 
@@ -81,6 +91,9 @@ def create(city_num):
 
 
 def get_distance(idToLocationLookup):
+    """
+    from given data generate adj_mat, which contains distance between any two cities.
+    """
     _n= idToLocationLookup.shape[0]
     adj_mat = np.zeros([_n, _n])
     for i in range(_n):
@@ -99,6 +112,9 @@ def get_fitness(route, _adj_mat):
 
 
 def get_improve(l, r, route, adj_mat):
+    """
+    2-opt
+    """
     # bef: [..., l-1, l, l+1, ..., r-1, r, r+1]
     # aft: [..., l-1, r, r-1, ..., l+1, l, r+1]
     city_num = len(route)
@@ -111,9 +127,7 @@ def get_improve(l, r, route, adj_mat):
 
 def get_neighbor(route):
     """
-
-    :param route:
-    :return:
+    randomly choose two positions from [1, N-1]
     """
     [l, r, *_] = np.random.choice(range(1, len(route)), size=2, replace=False)
     if r < l:
@@ -169,6 +183,10 @@ class TSPTests(unittest.TestCase):
 
 
     def test_30_cities(self):
+        """
+        test case one
+        :return:
+        """
         idToLocationLookup = np.array([
             [41, 94],
             [37, 84],
@@ -213,6 +231,10 @@ class TSPTests(unittest.TestCase):
                             visualization=False)
 
     def test_38_cities(self):
+        """
+        test case two
+        :return:
+        """
         idToLocationLookup = np.loadtxt(BASE_DIR + '/test_38_cities.txt', delimiter=' ', usecols=[1, 2])
         idToLocationLookup = idToLocationLookup - np.amin(idToLocationLookup, axis=0)
 

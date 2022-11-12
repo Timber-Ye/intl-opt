@@ -95,9 +95,8 @@ def get_best(cities_num, opt_fitness,
                     break
 
             for pool_index in range(poolSize):
-                _nb = [fnGetNeighbor(pool[pool_index]) for _ in range(neighbor_num)]
+                _nb = [fnGetNeighbor(pool[pool_index]) for _ in range(neighbor_num)]  # initialization
                 for _n in _nb:
-                    # print("{}\t{:.2f}".format(_n, tabu_list.freq_punish(_n, pool_index)))
                     _n.punish(tabu_list.freq_punish(_n, pool_index))
                 _nb.sort(reverse=True)
                 for _index in range(candidate_num):
@@ -105,15 +104,17 @@ def get_best(cities_num, opt_fitness,
                         pool[pool_index] = strategyLookup[Strategies.Feasible](pool[pool_index], _nb[_index])
                         tabu_list.add(_nb[_index], pool_index)
                         if pool[pool_index].Fitness > local_bests[pool_index].Fitness:
+                            # if exceeds the best so far
                             local_bests[pool_index] = pool[pool_index]
                         break
                     else:  # if tabu
                         if local_bests[pool_index].Fitness < pool[pool_index].Fitness.get_improv(_nb[_index].Eval):
+                            # breakout
                             pool[pool_index] = strategyLookup[Strategies.BreakOut](pool[pool_index], _nb[_index])
                             local_bests[pool_index] = pool[pool_index]
                             tabu_list.add(_nb[_index], pool_index)
                             break
-                if local_bests[pool_index].Fitness > global_best.Fitness:
+                if local_bests[pool_index].Fitness > global_best.Fitness:  # update the best so far solution
                     global_best = local_bests[pool_index]
                     yield global_best
                 tabu_list.update(pool_index)
@@ -142,8 +143,10 @@ class Strategies(Enum):
     BreakOut = 2
 
 
-''' Two-dimensional Array Implementation for Tabu list'''
 class TabuTable:
+    """
+    two-dimensional Array Implementation for Tabu list, which includes short, middle, long period tenure.
+    """
     def __init__(self, size, period, punish_rate=1e-3, poolSize=1):
         self.size = size
         self.tables = [np.zeros([size, size]) for _ in range(poolSize)]
@@ -176,10 +179,6 @@ class Benchmark:
         timings = []
         optimal_cost = []
         stdout = sys.stdout
-        # print("\t{:3}\t{}\t{}".format("No.", "Mean", "Stdev"))
-        # tabu_length = [0, 5, 15, 50]
-        # neighbor_range = [[20, 50], [50, 100], [100, 200], [200, 200]]
-        # color = ['salmon', 'sandybrown', 'greenyellow', 'darkturquoise']
 
         if visualization:
             fig = plt.figure()
@@ -188,15 +187,6 @@ class Benchmark:
             ax_1.set(ylabel='Average traveling costs', xlabel='No. of Generation')
             plt.grid(linestyle='--', linewidth=1, alpha=0.3)
 
-            # ax_2 = fig.add_subplot(212)
-            # # ax_2.set_aspect(1.2)
-            # ax_2.set(xlabel='No. of generation', ylabel='Best so far',
-            #          xlim=[0, 3000], ylim=[420, 450])
-            # plt.grid(linestyle='--', linewidth=1, alpha=0.3)
-            # # fig.tight_layout()
-            # fig.suptitle('Tuning Neighbor_range', fontweight="bold")
-
-        # for i, value in enumerate(neighbor_range):
         for i in range(100):
             startTime = time.time()
 
@@ -217,8 +207,6 @@ class Benchmark:
                 else:
                     ax_1.plot(x_axis, generation_mean_fitness, color='b', alpha=0.1)
                     ax_1.plot(x_axis, historical_best_fitness, color='g', alpha=0.15)
-                # ax_1.plot(x_axis, generation_mean_fitness, color=color[i], label='[{}, {}]'.format(value[0], value[1]), ls='-')
-                # ax_2.plot(x_axis, historical_best_fitness, color=color[i], label='[{}, {}]'.format(value[0], value[1]), ls='-')
 
             timings.append(seconds)
             mean_time = statistics.mean(timings)
