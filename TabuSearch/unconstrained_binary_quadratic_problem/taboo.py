@@ -186,13 +186,13 @@ class Benchmark:
             fig = plt.figure()
             ax_1 = fig.add_subplot(111)
             # ax_1.set_aspect(1)
-            ax_1.set(ylabel='Average traveling costs')
+            ax_1.set(ylabel='$f(\mathbf{X})$', xlabel='No. of Generation')
             plt.grid(linestyle='--', linewidth=1, alpha=0.3)
 
-        for i in range(1):
+        for i in range(100):
             startTime = time.time()
 
-            # sys.stdout = None  # avoid the output to be chatty
+            sys.stdout = None  # avoid the output to be chatty
             best, generation_mean_fitness, historical_best_fitness = function()
             seconds = time.time() - startTime
             optimal_cost.append(best.Fitness.get_total_distance())
@@ -204,8 +204,12 @@ class Benchmark:
                 x_axis = len(generation_mean_fitness)
                 x_axis = list(range(x_axis))
 
-                ax_1.plot(x_axis, generation_mean_fitness, color='b', label="mean costs", ls='-')
-                ax_1.plot(x_axis, historical_best_fitness, color='g', label="best so far", ls='-')
+                if i == 0:
+                    ax_1.plot(x_axis, generation_mean_fitness, color='b', alpha=0.3, label='mean cost')
+                    ax_1.plot(x_axis, historical_best_fitness, color='g', alpha=0.35, label='best so far')
+                else:
+                    ax_1.plot(x_axis, generation_mean_fitness, color='b', alpha=0.1)
+                    ax_1.plot(x_axis, historical_best_fitness, color='g', alpha=0.15)
 
             timings.append(seconds)
             mean_time = statistics.mean(timings)
@@ -226,6 +230,6 @@ class Benchmark:
         if visualization:
             ax_1.legend(loc='lower right')
             # ax_2.legend(loc='upper right')
-            fig.savefig('../../fig//[tmp]【TS】Unconstrained Binary Quadratic Problem.pdf')
+            fig.savefig('../../fig/[tmp]【TS】Unconstrained Binary Quadratic Problem.pdf')
 
         return best

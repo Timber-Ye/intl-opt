@@ -189,21 +189,33 @@ class UBQPTests(unittest.TestCase):
                             visualization=False)
 
     def test_bqp250(self):
-        """
-        test case one: bqp250.1
-        """
         size = 250
         lookup = np.loadtxt(BASE_DIR + '/bqp250.txt', delimiter=' ', dtype=int)
-        opt_weights = 3120000
+        opt_weights = 45607
+        # Optimal Solution: '0-1-2-3-4-5-7-8-12-14-
+        # 15-17-18-19-20-22-23-26-27-28-29-32-33-34-
+        # 35-36-37-38-39-42-43-46-48-49-50-52-54-55-
+        # 56-57-58-60-62-63-64-65-67-68-69-70-71-72-
+        # 78-83-84-86-87-89-91-92-94-95-97-98-99-100-
+        # 101-102-103-104-105-109-110-113-116-118-119-
+        # 121-122-123-124-125-128-131-133-134-136-137-
+        # 138-141-143-145-146-147-148-154-156-160-163-
+        # 164-165-166-167-168-169-170-171-172-173-174-
+        # 177-178-179-180-182-183-185-186-187-190-192-
+        # 194-196-197-202-203-204-205-206-208-211-213-
+        # 214-215-217-218-219-221-223-225-226-227-228-
+        # 229-231-232-234-237-239-240-241-242-243-244-
+        # 245-247-248-249'
         taboo.Benchmark.run(lambda tabu_length=20, neighbor_range=[100, 100],
-                                   pool_size=4, freq_punish=0:
+                                   pool_size=3, freq_punish=1e-1:
                             self.solve(size, lookup, optimalWeights=opt_weights,
                                        tabu_period=tabu_length,
                                        neighbor_range=neighbor_range,
                                        poolSize=pool_size,
-                                       generation=500,
+                                       generation=350,
                                        freq_punish=freq_punish),
                             visualization=True)
+
 
 
 if __name__ == '__main__':
