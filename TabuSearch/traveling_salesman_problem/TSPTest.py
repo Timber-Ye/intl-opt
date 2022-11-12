@@ -203,7 +203,7 @@ class TSPTests(unittest.TestCase):
         ])
         opt_weights = 423.741
         taboo.Benchmark.run(lambda tabu_length=15, neighbor_range=[100, 100],
-                                   pool_size=5, freq_punish=4e-1:
+                                   pool_size=1, freq_punish=4e-1:
                             self.solve(idToLocationLookup, opt_weights,
                                        tabu_period=tabu_length,
                                        neighbor_range=neighbor_range,

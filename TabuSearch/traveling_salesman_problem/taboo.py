@@ -185,7 +185,7 @@ class Benchmark:
             fig = plt.figure()
             ax_1 = fig.add_subplot(111)
             # ax_1.set_aspect(1)
-            ax_1.set(ylabel='Average traveling costs', xlim=[0, 3500], ylim=[6200, 12500])
+            ax_1.set(ylabel='Average traveling costs', xlabel='No. of Generation')
             plt.grid(linestyle='--', linewidth=1, alpha=0.3)
 
             # ax_2 = fig.add_subplot(212)
@@ -197,7 +197,7 @@ class Benchmark:
             # fig.suptitle('Tuning Neighbor_range', fontweight="bold")
 
         # for i, value in enumerate(neighbor_range):
-        for i in range(20):
+        for i in range(100):
             startTime = time.time()
 
             sys.stdout = None  # avoid the output to be chatty
@@ -211,9 +211,12 @@ class Benchmark:
                 # np.save("tuning_neighbor_range/best_fitness_{}.npy".format(i), np.array(historical_best_fitness))
                 x_axis = len(generation_mean_fitness)
                 x_axis = list(range(x_axis))
-
-                ax_1.plot(x_axis, generation_mean_fitness, color='b', label="mean costs", ls='-')
-                ax_1.plot(x_axis, historical_best_fitness, color='g', label="best so far", ls='-')
+                if i == 0:
+                    ax_1.plot(x_axis, generation_mean_fitness, color='b', alpha=0.3, label='mean cost')
+                    ax_1.plot(x_axis, historical_best_fitness, color='g', alpha=0.35, label='best so far')
+                else:
+                    ax_1.plot(x_axis, generation_mean_fitness, color='b', alpha=0.1)
+                    ax_1.plot(x_axis, historical_best_fitness, color='g', alpha=0.15)
                 # ax_1.plot(x_axis, generation_mean_fitness, color=color[i], label='[{}, {}]'.format(value[0], value[1]), ls='-')
                 # ax_2.plot(x_axis, historical_best_fitness, color=color[i], label='[{}, {}]'.format(value[0], value[1]), ls='-')
 
