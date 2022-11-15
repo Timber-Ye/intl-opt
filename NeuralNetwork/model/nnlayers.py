@@ -91,3 +91,17 @@ class Sigmoid:
 
     def __call__(self, _net):
         return self.forward(_net)
+    
+class ActLinear:
+    def __init__(self):
+        self.f = None
+
+    def forward(self, _net):
+        self.f = _net
+        return self.f
+
+    def backward(self, _net, _error):
+        return _error
+
+    def __call__(self, _net):
+        return self.forward(_net)
