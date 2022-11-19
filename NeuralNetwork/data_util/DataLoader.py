@@ -10,7 +10,7 @@ import pandas as pd
 class DataSet:
     """ 加载数据集 """
     def __init__(self, data_root='samples.csv', split='train', eval_sample_idx=None):
-        data = pd.read_csv(data_root, header=None, comment='#')
+        data = pd.read_csv(data_root, header=None)
         if eval_sample_idx is None:
             sample_idx = list(range(data.shape[0]))
         else:
