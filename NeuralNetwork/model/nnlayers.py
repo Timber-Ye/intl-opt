@@ -91,7 +91,8 @@ class Sigmoid:
 
     def __call__(self, _net):
         return self.forward(_net)
-    
+
+
 class ActLinear:
     def __init__(self):
         self.f = None
@@ -102,6 +103,21 @@ class ActLinear:
 
     def backward(self, _net, _error):
         return _error
+
+    def __call__(self, _net):
+        return self.forward(_net)
+
+
+class Log:
+    def __init__(self):
+        self.f = None
+
+    def forward(self, _net):
+        self.f = np.where(_net < 0, 0, np.log(_net))
+        return self.f
+
+    def backward(self, _net, _error):
+        return 1 / _error
 
     def __call__(self, _net):
         return self.forward(_net)
