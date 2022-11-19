@@ -117,7 +117,7 @@ class Log:
         return self.f
 
     def backward(self, _net, _error):
-        return 1 / _error
+        return _error / (self.f + 1e-6)
 
     def __call__(self, _net):
         return self.forward(_net)
