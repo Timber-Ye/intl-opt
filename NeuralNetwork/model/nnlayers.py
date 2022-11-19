@@ -122,17 +122,3 @@ class Log:
     def __call__(self, _net):
         return self.forward(_net)
 
-
-class Tan:
-    def __init__(self):
-        self.f = None
-
-    def forward(self, _net):
-        self.f = np.tan(_net)
-        return self.f
-
-    def backward(self, _net, _error):
-        return _error / (np.cos(_net)**2)
-
-    def __call__(self, _net):
-        return self.forward(_net)
